@@ -1,58 +1,39 @@
-public class Address {
-    String street;
-    String apt;
-    String city;
-    String state;
-    String zip;
+public class Address
+{
+    private static String name;
+    private static String street;
+    private static String apt;
+    private static String city;
+    private static String state;
+    private static String zip;
 
-    public Address(String street, String apt, String city, String state, String zip) {
-        this.street = street;
-        this.apt = apt;
-        this.city = city;
-        this.state = state;
-        this.zip = zip;
+    public Address(String aName, String aStreet, String anApt, String aCity, String aState, String aZip)
+    {
+        name = aName;
+        street = aStreet;
+        apt = anApt;
+        city = aCity;
+        state = aState;
+        zip = aZip;
+
     }
 
-    public String getStreet() {
-        return street;
+    public static String format()
+    {
+        if (apt == "")
+        {
+            return name + "\n"
+                    + street + "\n"
+                    + city + "\n"
+                    + state + "\n"
+                    + zip;
+        } else {
+            return name + "\n"
+                    + street + "\n"
+                    + apt + "\n"
+                    + city + "\n"
+                    + state + "\n"
+                    + zip;
+        }
     }
-
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    public String getApt() {
-        return apt;
-    }
-
-    public void setApt(String apt) {
-        this.apt = apt;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public String getZip() {
-        return zip;
-    }
-
-    public void setZip(String zip) {
-        this.zip = zip;
-    }
-
-    private String getFormattedAddress(Address address)
-    {}
 }

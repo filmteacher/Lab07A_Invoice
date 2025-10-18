@@ -1,23 +1,23 @@
-public class LineItem {
-    double quantity;
-    double calculatedTotal;
+public class LineItem
+{
+    private int quantity;
+    private Product theProduct;
 
-    public LineItem(double quantity, double calculatedTotal) {
-        this.quantity = quantity;
-        this.calculatedTotal = calculatedTotal;
+    public LineItem(Product aProduct, int aQuantity)
+    {
+        theProduct = aProduct;
+        quantity = aQuantity;
     }
 
-    public double getQuantity() {
-        return quantity;
+    public double getCalculatedTotal()
+    {
+        return theProduct.getUnitPrice() * quantity;
     }
 
-    public void setQuantity(double quantity) {
-        this.quantity = quantity;
+    public String format()
+    {
+        return String.format("%-30s%8.2f%5d%8.2f",
+                theProduct.getName(), theProduct.getUnitPrice(),
+                quantity, getCalculatedTotal());
     }
-
-    public void setCalculatedTotal(double calculatedTotal) {
-        this.calculatedTotal = calculatedTotal;
-    }
-
-    private double getCalculatedTotal() {}
 }

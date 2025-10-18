@@ -1,25 +1,21 @@
-public class Product {
-    String name;
-    double unitPrice;
+public class Product
+{
+    private String name;
+    private double unitPrice;
 
-    public Product(String name, double unitPrice) {
-        this.name = name;
-        this.unitPrice = unitPrice;
+    public Product(String aName, double aUnitPrice)
+    {
+        name = aName;
+        unitPrice = aUnitPrice;
     }
 
-    public String getName() {
+    public String getName()
+    {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public double getUnitPrice() {
+    public double getUnitPrice()
+    {
         return unitPrice;
-    }
-
-    public void setUnitPrice(double unitPrice) {
-        this.unitPrice = unitPrice;
     }
 }
