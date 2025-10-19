@@ -11,7 +11,7 @@ public class LineItem
 
     public double getCalculatedTotal()
     {
-        return theProduct.getUnitPrice() * quantity;
+        return Math.round(theProduct.getUnitPrice() * quantity * 100.0) / 100.0;
     }
 
     public String format()

@@ -44,14 +44,9 @@ public class Invoice
         double totalAmountDue = 0;
         for (LineItem item : items)
         {
-            totalAmountDue = totalAmountDue = item.getCalculatedTotal();
+            totalAmountDue = totalAmountDue + item.getCalculatedTotal();
         }
 
         return totalAmountDue;
     }
-
-    public void setTotalAmountDue(double totalAmountDue) {
-        this.totalAmountDue = totalAmountDue;
-    }
-
 }
