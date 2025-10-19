@@ -16,7 +16,7 @@ public class LineItem
 
     public String format()
     {
-        return String.format("%-30s%-5d%-8.2f%-8.2f",
+        return String.format("%-30s%-15d%15.2f%15.2f",
                 theProduct.getName(), quantity, theProduct.getUnitPrice(),
                 getCalculatedTotal());
     }

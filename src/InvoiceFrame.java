@@ -309,7 +309,7 @@ public class InvoiceFrame extends JFrame
         invoicePnl.setPreferredSize(new Dimension(720, 500));
 
         invoiceArea = new JTextArea(30,50);
-        invoiceArea.setFont(new Font("Verdana", Font.PLAIN, 14));
+        invoiceArea.setFont(new Font("Monospaced", Font.PLAIN, 14));
         invoiceArea.setEditable(false);
         invoicePnl.add(invoiceArea);
 

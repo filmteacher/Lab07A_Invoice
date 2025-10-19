@@ -25,16 +25,17 @@ public class Invoice
     {
         String r = title +"\n"
                 + billingAddress.format() + "\n"
-                + "\n===================================================="
-                + String.format("\n\n%-30s%-5s%-8s%-8s\n",
-                "Item", "Qty", "Price", "Total");
+                + "\n================================================================================\n\n"
+                + String.format("%-30s%-15s%15s%15s",
+                "Item", "Qty", "Price", "Total")
+                + "\n";
 
         for (LineItem item : items)
         {
             r = r + item.format() + "\n";
         }
 
-        r = r + "\n====================================================\n"
+        r = r + "\n================================================================================\n"
                 + String.format("\nAMOUNT DUE: $%-8.2f", getTotalAmountDue());
 
         return r;
