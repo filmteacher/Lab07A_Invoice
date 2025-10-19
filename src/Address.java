@@ -15,7 +15,6 @@ public class Address
         city = aCity;
         state = aState;
         zip = aZip;
-
     }
 
     public static String format()

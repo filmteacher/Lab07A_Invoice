@@ -11,8 +11,10 @@ public class InvoiceFrame extends JFrame
     JPanel entryPnl;
     JPanel customerPnl;
     JPanel custBtnsPnl;
+    JPanel rightPnl;
     JPanel itemsPnl;
     JPanel itemBtnsPnl;
+    JPanel genPnl;
     JPanel invoicePnl;
     JPanel footerPnl;
 
@@ -39,7 +41,7 @@ public class InvoiceFrame extends JFrame
     String state;
     String zip;
 
-    JButton addCustBtn;
+    JButton beginInvBtn;
     JButton clearCustBtn;
 
     JTextField itemFld;
@@ -50,8 +52,17 @@ public class InvoiceFrame extends JFrame
     JLabel qtyLbl;
     JLabel priceLbl;
 
+    String item = "";
+    String qtyStr = "";
+    String priceStr = "";
+    int qty = 0;
+    double price = 0;
+
     JButton addItemBtn;
     JButton clearItemBtn;
+
+    JButton invoiceBtn;
+    JButton clearInvBtn;
 
     JTextArea invoiceArea;
 
@@ -60,9 +71,10 @@ public class InvoiceFrame extends JFrame
 
     JFrame frame = new JFrame();
 
-    String order = "";
-    Invoice custInvoice;
     Address custAddress;
+    String formattedAddress;
+    Invoice custInvoice;
+    String order = "";
 
     public InvoiceFrame() {
         mainPnl = new JPanel();
@@ -100,7 +112,7 @@ public class InvoiceFrame extends JFrame
 
         customerPnl= new JPanel();
         customerPnl.setPreferredSize(new Dimension(360, 270));
-        customerPnl.setBorder(new TitledBorder(new EtchedBorder(), "Customer Info:"));
+        customerPnl.setBorder(new TitledBorder(new EtchedBorder(), "1. Enter Customer Info:"));
         customerPnl.setBackground(Color.LIGHT_GRAY);
 
         nameFld = new JTextField(20);
@@ -117,8 +129,8 @@ public class InvoiceFrame extends JFrame
         stateLbl = new JLabel("        State:");
         zipLbl = new JLabel("           Zip:");
 
-        addCustBtn = new JButton("Add Cust. Info");
-        addCustBtn.addActionListener(
+        beginInvBtn = new JButton("Begin Invoice for Cust.");
+        beginInvBtn.addActionListener(
                 (ActionEvent ae) ->
                 {
                     String name = nameFld.getText();
@@ -128,16 +140,34 @@ public class InvoiceFrame extends JFrame
                     String state = stateFld.getText();
                     String zip = zipFld.getText();
 
-                    custAddress = new Address(name, address, apt, city, state, zip);
-                    custInvoice = new Invoice(custAddress);
-                    order = custInvoice.format();
+                    if (name.equals("") || address.equals("") || city.equals("") || state.equals("") || zip.equals("")) {
+                        invoiceArea.setText("You must enter complete customer information above.");
+                        return;
+                    } else {
+                        custAddress = new Address(name, address, apt, city, state, zip);
+                        formattedAddress = custAddress.format();
+                        custInvoice = new Invoice(custAddress);
+                        invoiceArea.setText("Enter line items for:\n" + formattedAddress);
+                    }
                 });
 
         clearCustBtn = new JButton("Clear Cust. Info");
         clearCustBtn.addActionListener(
                 (ActionEvent ae) ->
                 {
-
+                    nameFld.setText("");
+                    name="";
+                    addressFld.setText("");
+                    address="";
+                    aptFld.setText("");
+                    apt="";
+                    cityFld.setText("");
+                    city="";
+                    stateFld.setText("");
+                    state="";
+                    zipFld.setText("");
+                    zip="";
+                    invoiceArea.setText("");
                 });
 
         customerPnl.add(nameLbl);
@@ -160,15 +190,19 @@ public class InvoiceFrame extends JFrame
 
         custBtnsPnl = new JPanel();
         custBtnsPnl.setBackground(Color.LIGHT_GRAY);
-        custBtnsPnl.add(addCustBtn);
+        custBtnsPnl.add(beginInvBtn);
         custBtnsPnl.add(clearCustBtn);
         customerPnl.add(custBtnsPnl);
 
         entryPnl.add(customerPnl);
 
+        rightPnl = new JPanel();
+        rightPnl.setLayout(new BoxLayout(rightPnl, BoxLayout.Y_AXIS));
+        rightPnl.setPreferredSize(new Dimension(360, 270));
+
         itemsPnl = new JPanel();
-        itemsPnl.setPreferredSize(new Dimension(360, 270));
-        itemsPnl.setBorder(new TitledBorder(new EtchedBorder(), "Items Info:"));
+        itemsPnl.setPreferredSize(new Dimension(360, 200));
+        itemsPnl.setBorder(new TitledBorder(new EtchedBorder(), "2. Enter Each Line Item:"));
         itemsPnl.setBackground(Color.LIGHT_GRAY);
 
         itemFld = new JTextField(20);
@@ -183,26 +217,45 @@ public class InvoiceFrame extends JFrame
         addItemBtn.addActionListener(
                 (ActionEvent ae) ->
                 {
-                    String item = itemFld.getText();
-                    String qtyStr = qtyFld.getText();
-                    String priceStr = priceFld.getText();
+                    item = itemFld.getText();
+                    qtyStr = qtyFld.getText();
+                    priceStr = priceFld.getText();
 
-                    int qty = Integer.parseInt(qtyStr);
-                    double price = Double.parseDouble(priceStr);
+                    qty = Integer.parseInt(qtyStr);
+                    price = Double.parseDouble(priceStr);
 
                     custInvoice.add(new Product(name, price), qty);
-//
-//        custInvoice.add(new Product("Toaster", 29.95), 3);
-//        custInvoice.add(new Product("Hair Dryer", 24.95), 1);
-//        custInvoice.add(new Product("Car Vaccum", 19.95), 2);
-//
                 });
 
         clearItemBtn = new JButton("Clear Items");
         clearItemBtn.addActionListener(
                 (ActionEvent ae) ->
                 {
+                    itemFld.setText("");
+                    item = "";
+                    qtyFld.setText("");
+                    qtyStr = "";
+                    qty = 0;
+                    priceFld.setText("");
+                    priceStr = "";
+                    price = 0;
+                });
 
+        invoiceBtn = new JButton("Generate Invoice");
+        invoiceBtn.addActionListener(
+                (ActionEvent ae) ->
+                {
+                    custInvoice = new Invoice(custAddress);
+                    order = custInvoice.format();
+                    invoiceArea.setText(order);
+                });
+
+        clearInvBtn = new JButton("Clear Invoice");
+        clearInvBtn.addActionListener(
+                (ActionEvent ae) ->
+                {
+                    order = "";
+                    invoiceArea.setText(order);
                 });
 
         itemsPnl.add(itemLbl);
@@ -215,12 +268,24 @@ public class InvoiceFrame extends JFrame
         itemsPnl.add(priceFld);
 
         itemBtnsPnl = new JPanel();
+        itemBtnsPnl.setPreferredSize(new Dimension(320, 40));
         itemBtnsPnl.setBackground(Color.LIGHT_GRAY);
         itemBtnsPnl.add(addItemBtn);
         itemBtnsPnl.add(clearItemBtn);
+
         itemsPnl.add(itemBtnsPnl);
 
-        entryPnl.add(itemsPnl);
+        genPnl = new JPanel();
+        genPnl.setPreferredSize(new Dimension(360, 70));
+        genPnl.setBorder(new TitledBorder(new EtchedBorder(), "3. Generate Invoice After All Line Items Added:"));
+        genPnl.setBackground(Color.LIGHT_GRAY);
+        genPnl.add(invoiceBtn);
+        genPnl.add(clearInvBtn);
+
+        rightPnl.add(itemsPnl);
+        rightPnl.add(genPnl);
+
+        entryPnl.add(rightPnl);
 
         mainPnl.add(entryPnl);
     }
@@ -236,8 +301,7 @@ public class InvoiceFrame extends JFrame
         invoiceArea = new JTextArea(30,50);
         invoiceArea.setFont(new Font("Verdana", Font.PLAIN, 14));
         invoiceArea.setEditable(false);
-
-        invoiceArea.setText(order);
+        invoicePnl.add(invoiceArea);
 
         mainPnl.add(invoicePnl);
     }
