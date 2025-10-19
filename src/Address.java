@@ -23,15 +23,15 @@ public class Address
         {
             return name + "\n"
                     + street + "\n"
-                    + city + "\n"
-                    + state + "\n"
+                    + city + ", "
+                    + state + " "
                     + zip;
         } else {
             return name + "\n"
                     + street + "\n"
                     + apt + "\n"
-                    + city + "\n"
-                    + state + "\n"
+                    + city + ", "
+                    + state + " "
                     + zip;
         }
     }

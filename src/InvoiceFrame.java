@@ -72,9 +72,10 @@ public class InvoiceFrame extends JFrame
     JFrame frame = new JFrame();
 
     Address custAddress;
-    String formattedAddress;
     Invoice custInvoice;
+    String formattedAddress;
     String order = "";
+
 
     public InvoiceFrame() {
         mainPnl = new JPanel();
@@ -201,7 +202,7 @@ public class InvoiceFrame extends JFrame
         rightPnl.setPreferredSize(new Dimension(360, 270));
 
         itemsPnl = new JPanel();
-        itemsPnl.setPreferredSize(new Dimension(360, 200));
+        itemsPnl.setPreferredSize(new Dimension(360, 160));
         itemsPnl.setBorder(new TitledBorder(new EtchedBorder(), "2. Enter Each Line Item:"));
         itemsPnl.setBackground(Color.LIGHT_GRAY);
 
@@ -224,7 +225,17 @@ public class InvoiceFrame extends JFrame
                     qty = Integer.parseInt(qtyStr);
                     price = Double.parseDouble(priceStr);
 
-                    custInvoice.add(new Product(name, price), qty);
+                    custInvoice.add(new Product(item, price), qty);
+                    invoiceArea.setText("Item: " + item +", Price: " + price +", Qty:" + qty + " added to invoice.");
+
+                    itemFld.setText("");
+                    item = "";
+                    qtyFld.setText("");
+                    qtyStr = "";
+                    qty = 0;
+                    priceFld.setText("");
+                    priceStr = "";
+                    price = 0;
                 });
 
         clearItemBtn = new JButton("Clear Items");
@@ -245,7 +256,6 @@ public class InvoiceFrame extends JFrame
         invoiceBtn.addActionListener(
                 (ActionEvent ae) ->
                 {
-                    custInvoice = new Invoice(custAddress);
                     order = custInvoice.format();
                     invoiceArea.setText(order);
                 });
@@ -254,6 +264,7 @@ public class InvoiceFrame extends JFrame
         clearInvBtn.addActionListener(
                 (ActionEvent ae) ->
                 {
+                    custInvoice = new Invoice(custAddress);
                     order = "";
                     invoiceArea.setText(order);
                 });
@@ -289,7 +300,6 @@ public class InvoiceFrame extends JFrame
 
         mainPnl.add(entryPnl);
     }
-
 
     private void createInvoicePanel()
     {
